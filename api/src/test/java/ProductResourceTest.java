@@ -16,6 +16,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
@@ -37,8 +38,12 @@ public class ProductResourceTest extends JerseyTest {
 
     @Test
     public void should_return_200_when_get_product() {
+        when(productRepository.getProductById(eq(1))).thenReturn(new Product(1, "productName"));
         Response response = target("/products/1").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
         assertEquals(response.getStatus(), 200);
+        Map productJson = response.readEntity(Map.class);
+        assertThat(productJson.get("uri").toString(), endsWith("/products/1"));
+        assertThat(productJson.get("name"), is("productName"));
     }
 
     @Test
