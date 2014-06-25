@@ -7,8 +7,10 @@ import org.thoughtworks.com.json.response.PriceJson;
 import org.thoughtworks.com.provider.ProductRepository;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 public class PriceResource {
 
@@ -31,8 +33,11 @@ public class PriceResource {
     }
 
     @POST
-    public Response createProductPrice(CreatePriceJson createPriceJson) {
-        productRepository.createProductPrice(product, createPriceJson.createPrice());
-        return Response.status(201).build();
+    public Response createProductPrice(CreatePriceJson createPriceJson, @Context UriInfo uriInfo) {
+        int priceId = productRepository.createProductPrice(product, createPriceJson.createPrice());
+        return Response
+                .status(201)
+                .location(uriInfo.getAbsolutePathBuilder().path(String.valueOf(priceId)).build())
+                .build();
     }
 }

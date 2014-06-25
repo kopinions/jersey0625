@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -55,7 +56,7 @@ public class PriceResourceTest extends JerseyTest {
 
     @Test
     public void should_create_price_for_product() {
-        Price price = new Price(1, 1.1);
+        Price price = new Price(2, 1.1);
         when(productRepository.createProductPrice(any(Product.class), any(Price.class))).thenReturn(price.getId());
         when(productRepository.getProductById(eq(1))).thenReturn(new Product(1, "productName"));
 
@@ -67,7 +68,8 @@ public class PriceResourceTest extends JerseyTest {
         verify(productRepository).createProductPrice(productArgumentCaptor.capture(), priceArgumentCaptor.capture());
         assertThat(productArgumentCaptor.getValue().getId(), is(1));
         assertThat(priceArgumentCaptor.getValue().getPrice(), is(1.1));
-        
+
+        assertThat(response.getLocation().toString(), endsWith("/products/1/prices/2"));
     }
 
 
