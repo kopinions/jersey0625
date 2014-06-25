@@ -4,6 +4,9 @@ public class Price {
     private int id;
     private double price;
 
+    public Price() {
+    }
+
     public Price(int id, double price) {
 
         this.id = id;

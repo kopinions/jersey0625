@@ -4,6 +4,11 @@ public class Product {
     private String name;
     private int id;
 
+    private Price currentPrice;
+
+    public Product() {
+    }
+
     public Product(String name) {
         this.name = name;
     }

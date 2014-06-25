@@ -11,7 +11,7 @@
             <result property="price" column="price_price"></result>
         </association>
     </resultMap>
-    <select id="getProductById" resultMap="getProduct">
+    <select id="getProductById" resultMap="getProduct" parameterType="int">
         select
           products.id as product_id,
           products.name as product_name,
@@ -20,5 +20,6 @@
         from products products
         left join prices
         on products.id = prices.id
+        where products.id=#{id}
     </select>
 </mapper>
