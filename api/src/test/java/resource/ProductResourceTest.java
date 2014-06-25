@@ -18,8 +18,10 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
@@ -71,8 +73,14 @@ public class ProductResourceTest extends JerseyTest {
 
     @Test
     public void should_get_all_products() {
+        when(productRepository.getProductList()).thenReturn(asList(new Product(1,"productName1")));
         Response response = target("/products").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
         assertEquals(response.getStatus(), 200);
+        List productList = response.readEntity(List.class);
+        assertThat(productList.size(), is(1));
+
+        Map<String, Object> product = (Map<String, Object>) productList.get(0);
+        assertThat(product.get("uri").toString(), endsWith("/products/1"));
     }
 
     @Override

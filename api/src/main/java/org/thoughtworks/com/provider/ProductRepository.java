@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.thoughtworks.com.domain.Price;
 import org.thoughtworks.com.domain.Product;
 
+import java.util.List;
+
 public interface ProductRepository {
     public Product getProductById(int productId);
 
@@ -12,4 +14,6 @@ public interface ProductRepository {
     public Price getPriceById(int priceId);
 
     public int createProductPrice(@Param("product") Product product, @Param("price") Price price);
+
+    List<Product> getProductList();
 }

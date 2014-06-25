@@ -12,8 +12,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Path("/products")
 public class ProductResource {
@@ -31,8 +32,9 @@ public class ProductResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ProductRefJson> getProductList() {
-        return new ArrayList<>();
+    public List<ProductRefJson> getProductList(@Context UriInfo uriInfo) {
+        List<Product> productList = productRepository.getProductList();
+        return productList.stream().map(p -> new ProductRefJson(p, uriInfo)).collect(toList());
     }
 
     @POST
