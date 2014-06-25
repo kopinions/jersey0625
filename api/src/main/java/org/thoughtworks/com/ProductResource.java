@@ -37,6 +37,6 @@ public class ProductResource {
 
     @Path("{id}/prices")
     public PriceResource getPrice() {
-        return new PriceResource();
+        return new PriceResource(productRepository);
     }
 }

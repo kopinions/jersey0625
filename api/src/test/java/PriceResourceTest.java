@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.thoughtworks.com.exception.PriceNotFoundException;
 import org.thoughtworks.com.provider.ProductRepository;
 
 import javax.ws.rs.core.Application;
@@ -12,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PriceResourceTest extends JerseyTest {
@@ -23,6 +26,13 @@ public class PriceResourceTest extends JerseyTest {
     public void should_get_price() {
         Response response = target("/products/1/prices/1").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
         assertEquals(response.getStatus(), 200);
+    }
+
+    @Test
+    public void should_return_404_when_not_found_price() {
+        when(productRepository.getPriceById(eq(1))).thenThrow(PriceNotFoundException.class);
+        Response response = target("/products/1/prices/1").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
+        assertEquals(response.getStatus(), 404);
     }
 
 
