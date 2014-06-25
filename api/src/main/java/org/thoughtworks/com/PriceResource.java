@@ -1,6 +1,8 @@
 package org.thoughtworks.com;
 
 import org.thoughtworks.com.domain.Price;
+import org.thoughtworks.com.domain.Product;
+import org.thoughtworks.com.json.request.CreatePriceJson;
 import org.thoughtworks.com.json.response.PriceJson;
 import org.thoughtworks.com.provider.ProductRepository;
 
@@ -12,10 +14,12 @@ public class PriceResource {
 
 
     private ProductRepository productRepository;
+    private Product product;
 
-    public PriceResource(ProductRepository productRepository) {
+    public PriceResource(ProductRepository productRepository, Product product) {
 
         this.productRepository = productRepository;
+        this.product = product;
     }
 
     @GET
@@ -27,7 +31,8 @@ public class PriceResource {
     }
 
     @POST
-    public Response createProductPrice() {
+    public Response createProductPrice(CreatePriceJson createPriceJson) {
+        productRepository.createProductPrice(product, createPriceJson.createPrice());
         return Response.status(201).build();
     }
 }

@@ -10,7 +10,15 @@ public class Price {
         this.price = price;
     }
 
+    public Price(double price) {
+        this.price = price;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
