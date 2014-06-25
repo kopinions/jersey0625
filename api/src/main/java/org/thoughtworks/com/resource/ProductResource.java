@@ -3,6 +3,7 @@ package org.thoughtworks.com.resource;
 import org.thoughtworks.com.domain.Product;
 import org.thoughtworks.com.json.request.CreateProductJson;
 import org.thoughtworks.com.json.response.ProductJson;
+import org.thoughtworks.com.json.response.ProductRefJson;
 import org.thoughtworks.com.provider.ProductRepository;
 
 import javax.inject.Inject;
@@ -11,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/products")
 public class ProductResource {
@@ -26,6 +29,11 @@ public class ProductResource {
         return new ProductJson(product, uriInfo);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ProductRefJson> getProductList() {
+        return new ArrayList<>();
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

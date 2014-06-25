@@ -69,6 +69,11 @@ public class ProductResourceTest extends JerseyTest {
     }
 
 
+    @Test
+    public void should_get_all_products() {
+        Response response = target("/products").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
+        assertEquals(response.getStatus(), 200);
+    }
 
     @Override
     protected Application configure() {
