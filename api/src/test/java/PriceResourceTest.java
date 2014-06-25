@@ -43,8 +43,13 @@ public class PriceResourceTest extends JerseyTest {
 
     @Test
     public void should_get_price() {
-        Response response = target("/products/1/prices/1").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
+        when(productRepository.getPriceById(eq(2))).thenReturn(new Price(2, 2.0));
+        Response response = target("/products/1/prices/2").request().accept(MediaType.APPLICATION_JSON_TYPE).get();
         assertEquals(response.getStatus(), 200);
+
+        Map priceJson = response.readEntity(Map.class);
+        assertThat(priceJson.get("uri").toString(), endsWith("/products/1/prices/2"));
+        assertThat(Double.valueOf(priceJson.get("price").toString()), is(2.0));
     }
 
     @Test
