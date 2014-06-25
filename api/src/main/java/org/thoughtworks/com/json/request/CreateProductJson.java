@@ -6,6 +6,6 @@ public class CreateProductJson {
     public String name;
 
     public Product createProduct() {
-        return null;
+        return new Product(name);
     }
 }

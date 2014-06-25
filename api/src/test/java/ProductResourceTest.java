@@ -1,9 +1,10 @@
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.thoughtworks.com.domain.Product;
@@ -16,10 +17,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 
+import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +31,9 @@ public class ProductResourceTest extends JerseyTest {
 
     @Mock
     ProductRepository productRepository;
+
+    @Captor
+    ArgumentCaptor<Product> productArgumentCaptor = ArgumentCaptor.forClass(Product.class);
 
     @Test
     public void should_return_200_when_get_product() {
@@ -49,7 +56,9 @@ public class ProductResourceTest extends JerseyTest {
         productRequest.put("name", "productName1");
         Response response = target("/products").request().accept(MediaType.APPLICATION_JSON_TYPE).post(Entity.entity(productRequest, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(response.getStatus(), 201);
-        Assert.assertThat(response.getLocation().toString(), endsWith("/products/2"));
+        assertThat(response.getLocation().toString(), endsWith("/products/2"));
+        verify(productRepository).createProduct(productArgumentCaptor.capture());
+        assertThat(productArgumentCaptor.getValue().getName(), is("productName1"));
     }
 
 
