@@ -15,4 +15,8 @@ public class ProductRepository {
     public Price getPriceById(int priceId) {
         return null;
     }
+
+    public int createProductPrice(Product product, Price price) {
+        return 0;
+    }
 }
