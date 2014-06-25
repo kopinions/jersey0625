@@ -1,4 +1,4 @@
-package org.thoughtworks.com;
+package org.thoughtworks.com.resource;
 
 import org.thoughtworks.com.domain.Price;
 import org.thoughtworks.com.domain.Product;

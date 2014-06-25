@@ -1,4 +1,4 @@
-package org.thoughtworks.com;
+package org.thoughtworks.com.resource;
 
 import org.thoughtworks.com.domain.Product;
 import org.thoughtworks.com.json.request.CreateProductJson;
