@@ -5,7 +5,7 @@ CREATE TABLE products(
 
 
 CREATE TABLE prices(
-  id int,
+  id serial primary key,
   price numeric,
   product_id int references products
 );

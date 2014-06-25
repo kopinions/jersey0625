@@ -22,4 +22,10 @@
         on products.id = prices.id
         where products.id=#{id}
     </select>
+
+    <select id="getPriceById" parameterType="int" resultType="org.thoughtworks.com.domain.Price">
+        select
+        * from prices
+        where id=#{id}
+    </select>
 </mapper>

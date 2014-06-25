@@ -2,6 +2,7 @@ package provider;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import org.thoughtworks.com.domain.Price;
 import org.thoughtworks.com.domain.Product;
 import org.thoughtworks.com.provider.MyBatisExecuter;
 import org.thoughtworks.com.provider.ProductRepository;
@@ -19,5 +20,15 @@ public class ProductRepositoryTest {
         ProductRepository productRepository = session.getMapper(ProductRepository.class);
         Product product = productRepository.getProductById(1);
         assertThat(product.getId(), is(1));
+    }
+
+
+    @Test
+    public void shoule_get_price_by_id() throws IOException {
+        MyBatisExecuter myBatisExecuter = new MyBatisExecuter();
+        SqlSession session = myBatisExecuter.getSession();
+        ProductRepository productRepository = session.getMapper(ProductRepository.class);
+        Price price = productRepository.getPriceById(1);
+        assertThat(price.getId(), is(1));
     }
 }
