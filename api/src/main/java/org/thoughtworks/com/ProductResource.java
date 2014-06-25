@@ -1,15 +1,16 @@
 package org.thoughtworks.com;
 
 import org.thoughtworks.com.domain.Product;
+import org.thoughtworks.com.json.request.CreateProductJson;
 import org.thoughtworks.com.json.response.ProductJson;
 import org.thoughtworks.com.provider.ProductRepository;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/products")
 public class ProductResource {
@@ -23,5 +24,13 @@ public class ProductResource {
     public ProductJson getProduct(@PathParam("id") int id) {
         Product product = productRepository.getProductById(id);
         return new ProductJson();
+    }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createProduct(@Context UriInfo uriInfo, CreateProductJson createProductJson) {
+        int productId = productRepository.createProduct(createProductJson.createProduct());
+        return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(productId)).build()).build();
     }
 }

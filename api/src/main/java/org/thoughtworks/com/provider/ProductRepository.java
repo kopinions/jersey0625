@@ -6,4 +6,8 @@ public class ProductRepository {
     public Product getProductById(int productId) {
         return null;
     }
+
+    public int createProduct(Product product) {
+        return 0;
+    }
 }
