@@ -20,12 +20,20 @@
         from products products
         left join prices
         on products.id = prices.id
-        where products.id=#{id}
+        where products.id=#{id};
     </select>
 
     <select id="getPriceById" parameterType="int" resultType="org.thoughtworks.com.domain.Price">
         select
         * from prices
-        where id=#{id}
+        where id=#{id};
     </select>
+
+    <insert id="createProductPrice" useGeneratedKeys="true" keyProperty="price.id" keyColumn="id" parameterType="org.thoughtworks.com.domain.Price" statementType="PREPARED">
+       insert into prices (product_id, price) values (#{product.id}, #{price.price});
+    </insert>
+
+    <insert id="createProduct" useGeneratedKeys="true" keyProperty="product.id" keyColumn="id" parameterType="org.thoughtworks.com.domain.Product" statementType="PREPARED">
+        insert into products (name) values (#{product.name});
+    </insert>
 </mapper>
